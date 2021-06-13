@@ -13,7 +13,6 @@
 				}
 			})
 		);
-	
 	},
 	saveRecord: function(component, event, helper) {
 		var propBeds = parseInt(component.find('propBeds').get("v.value"), 10);
@@ -33,7 +32,9 @@
 					"title": "Saved",
 					"message": "The record was saved."
 				});
-				resultsToast.fire();                
+				resultsToast.fire();      
+				var recId = result.recordId;
+				helper.navigateTo(component, recId);          
 			} else if (result.state === "ERROR") {
 				console.log('Error: ' + JSON.stringify(result.error));
 				resultsToast.setParams({
@@ -45,5 +46,12 @@
 				console.log('Unknown problem, state: ' + result.state + ', error: ' + JSON.stringify(result.error));
 			}
 		}));
-	}
+	},
+	cancelDialog: function(component, helper) {
+		var homeEvt = $A.get("e.force:navigateToObjectHome");
+		homeEvent.setParams({
+			"scope" : "Property__c"
+		});
+		homeEvent.fire();
+	}	
 })
